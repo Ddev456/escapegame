@@ -61,7 +61,7 @@ export const ColumnItem = ({ id, color, title, children }: ColumnItemProps) => {
       </h2>
       <div
         className={clsx(
-          "h-[600px] w-[450px] flex flex-col mx-auto gap-2 justify-center items-center"
+          "overflow-auto p-2 w-full h-[12rem] md:h-[600px] md:w-[450px] flex flex-wrap mx-auto gap-2 justify-center items-center"
         )}
         ref={setNodeRef}
       >
@@ -77,17 +77,34 @@ export type item = {
 };
 
 export default function App() {
+  const goodToShare = [2, 3, 6, 7, 13, 14, 15, 17, 20];
+  const shouldNotShare = [1, 4, 5, 8, 9, 10, 11, 12, 16, 18, 19];
   const [items, setItems] = useState<{
     box: item[];
     column1: item[];
     column2: item[];
   }>({
     box: [
-      { id: 1, title: "Un mot de passe" },
-      { id: 2, title: "Une Date d'anniversaire" },
-      { id: 3, title: "Une copie de diplôme" },
-      { id: 4, title: "Ce que j'ai mangé à midi sur Facebook" },
-      { id: 5, title: "Mes passions" },
+      { id: 1, title: "Nom de famille" },
+      { id: 2, title: "Prénom" },
+      { id: 3, title: "Couleur préférée" },
+      { id: 4, title: "Adresse personnelle" },
+      { id: 5, title: "Numéro de téléphone" },
+      { id: 6, title: "Animal préféré" },
+      { id: 7, title: "Saison préférée" },
+      { id: 8, title: "Adresse e-mail" },
+      { id: 9, title: "Mot de passe" },
+      { id: 10, title: "Réponses aux questions de sécurité" },
+      { id: 11, title: "Numéro de carte de crédit" },
+      { id: 12, title: "Numéro de sécurité sociale" },
+      { id: 13, title: "Chanteur ou groupe de musique préféré" },
+      { id: 14, title: "Sport préféré" },
+      { id: 15, title: "Pays préféré" },
+      { id: 16, title: "Carte d'identité ou passeport" },
+      { id: 17, title: "Activité favorite" },
+      { id: 18, title: "Numéro de permis de conduire" },
+      { id: 19, title: "Infos sur la santé" },
+      { id: 20, title: "Série préférée" },
     ],
     column1: [],
     column2: [],
@@ -143,12 +160,18 @@ export default function App() {
 
           // Check if items 1, 2, 3 are in column1 and items 4, 5 are in column2
           if (
-            [1, 2, 3].every((id) => idsInColumn2.has(id)) &&
-            [4, 5].every((id) => idsInColumn1.has(id))
+            shouldNotShare.every((id) =>
+              // [1, 4, 5, 8, 9, 10, 11, 12, 16, 18, 19].every((id) =>
+              idsInColumn2.has(id)
+            ) &&
+            goodToShare.every((id) =>
+              // [2, 3, 6, 7, 13, 14, 15, 17, 20].every((id) =>
+              idsInColumn1.has(id)
+            )
           ) {
-            toast.success("Succès !");
+            toast.success("Bravo, tu as réussi !");
           } else {
-            toast.error("Échec !");
+            toast.error("Mauvaise réponse !");
           }
         }
 
@@ -158,7 +181,7 @@ export default function App() {
   }
 
   return (
-    <div className="flex gap-2 w-full p-8">
+    <div className="flex md:flex-row flex-col gap-2 w-full p-8">
       <Toaster />
       <DndContext
         sensors={sensors}
